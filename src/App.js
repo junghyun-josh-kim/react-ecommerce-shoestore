@@ -1,8 +1,9 @@
 import './App.css';
 import { Row, Col, Navbar, Container, Nav } from 'react-bootstrap';
 import { useState } from 'react';
-import { itemData, imgData } from './data.js';
 import { Routes, Route, Link } from 'react-router-dom';
+import { itemData, imgData } from './data.js';
+import Detail from './detail.js';
 
 function App() {
   const [item, setItem] = useState(itemData);
@@ -38,7 +39,7 @@ function App() {
             </>
           }
         />
-        <Route path='/products' element={<div>PRODUCTS</div>} />
+        <Route path='/products' element={<Detail />} />
       </Routes>
     </div>
   );
