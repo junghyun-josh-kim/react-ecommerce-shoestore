@@ -1,7 +1,12 @@
 import './App.css';
 import { Row, Col, Navbar, Container, Nav } from 'react-bootstrap';
+import { useState } from 'react';
+import { itemData, imgData } from './data.js';
 
 function App() {
+  const [item, setItem] = useState(itemData);
+  const [img, setImg] = useState(imgData);
+
   return (
     <div className='App'>
       <Navbar bg='light' variant='light'>
@@ -19,10 +24,15 @@ function App() {
       <div className='main-bg'></div>
       <Container>
         <Row>
-          <Col>
+          {item.map((objs, i) => {
+            return <Item item={item} img={img} i={i} />;
+          })}
+
+          {/* <Col>
             <img src='/img/shoe-001.jpg' width='80%' />
-            <h4>Name</h4>
-            <p>Description</p>
+            <h4>{item[0].title}</h4>
+            <p>{item[0].description}</p>
+            <p>{item[0].price}</p>
           </Col>
           <Col>
             <img src='/img/shoe-002.jpg' width='80%' />
@@ -33,10 +43,21 @@ function App() {
             <img src='/img/shoe-003.jpg' width='80%' />
             <h4>Name</h4>
             <p>Description</p>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </div>
+  );
+}
+
+function Item(props) {
+  return (
+    <Col>
+      <img src={props.img[props.i].imgPath} width='80%' />
+      <h4>{props.item[props.i].title}</h4>
+      <p>{props.item[props.i].description}</p>
+      <p>{props.item[props.i].price}</p>
+    </Col>
   );
 }
 
