@@ -1,13 +1,17 @@
 import './App.css';
 import { Row, Col, Navbar, Container, Nav } from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import { itemData, imgData } from './data.js';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 function App() {
   const [item, setItem] = useState(itemData);
+  const [moreItem, setMoreItem] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {});
 
   return (
     <div className='App'>
@@ -68,6 +72,15 @@ function App() {
                     return <Item item={item[i]} i={i} key={i} />;
                   })}
                 </Row>
+                <Row>
+                  {moreItem == ''
+                    ? null
+                    : moreItem.map((objs, i) => {
+                        return (
+                          <MoreItem moreItem={moreItem[i]} i={i} key={i} />
+                        );
+                      })}
+                </Row>
               </Container>
             </>
           }
@@ -76,6 +89,21 @@ function App() {
 
         <Route path='*' element={<div>404</div>} />
       </Routes>
+      <button
+        onClick={() => {
+          axios
+            .get('https://codingapple1.github.io/shop/data2.json')
+            .then((result) => {
+              const newItem = result.data;
+              setMoreItem(newItem);
+            })
+            .catch(() => {
+              console.log('RIP');
+            });
+        }}
+      >
+        More
+      </button>
     </div>
   );
 }
@@ -91,12 +119,13 @@ function Item(props) {
   );
 }
 
-function About() {
+function MoreItem(props) {
   return (
-    <div>
-      <h4>ABOUT</h4>
-      <Outlet></Outlet>
-    </div>
+    <Col>
+      <h4>{props.moreItem.title}</h4>
+      <p>{props.moreItem.description}</p>
+      <p>{props.moreItem.price}</p>
+    </Col>
   );
 }
 
